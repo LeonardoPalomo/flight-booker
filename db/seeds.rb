@@ -4,6 +4,31 @@
 #
 # Example:
 #
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+
+codes = ["GER", "NYC", "STG", "DBI", "KOR", "RAN", "JPN", "CHN", "CHI", "POR"]
+
+codes.each do |code_name|
+  Airport.find_or_create_by!(code: code_name)
+end
+
+10.times do 
+  airports = Airport.all.to_a
+  f = Flight.new
+
+  start_airport = airports.sample
+  f.departure_airport = start_airport
+
+  airports.delete(start_airport)
+
+  finish_airport = airports.sample
+  f.arrival_airport = finish_airport
+  date = rand(-1.years..1.years).ago
+  f.flight_date = date
+  duration = rand(30..300)
+  f.flight_duration = duration
+  passengers = rand(150..500)
+  f.passengers = passengers
+  f.save
+end
+
+
