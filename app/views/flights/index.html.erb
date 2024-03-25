@@ -1,0 +1,86 @@
+<p><strong>Search for a flight</strong></p>
+<%= form_with url: flights_path, method: :get do |f| %>
+  <div>
+    <%= f.select(:departure_airport, @airport_options) %>
+    <%= f.select(:arrival_airport, @airport_options) %>
+  </div>
+
+  <div>
+    <%= f.label :flight_date, style: "display: block" %>
+    <%= f.select :flight_date, @dates_options.uniq %>
+  </div>
+
+  <br>
+
+  <div>
+    <%= f.submit "Search" %>
+  </div>
+<% end %>
+
+<% if @search_results.any? %>
+  <%= form_with url: new_booking_path(@flight), method: :get do |f| %>
+    <%= f.collection_radio_buttons :flight_id, @search_results.order(:flight_date), :id, :id %>
+    <div>
+      <%= f.label :passengers, style: "display: block" %>
+      <%= f.select :passengers, @passengers_options %>
+    </div>
+    <%= f.submit "Book this flight" %>
+  <% end %>
+<% end %>
+
+<% if @search_results.any? %>
+  <p><strong>SEARCH RESULTS:</strong></p>
+  <% @search_results.order(:flight_date).each do |flight| %>
+    <p>
+      <strong>Flight date:</strong>
+      <%= flight.flight_date.strftime("%d %b %y") %>
+    </p>
+    <p>
+      <strong>From:</strong>
+      <%= flight.departure_airport.code %>
+    </p>
+    <p>
+      <strong>To:</strong>
+      <%= flight.arrival_airport.code %>
+    </p>
+    <p>
+      <strong>Estimated fly time:</strong>
+      <%= flight.flight_duration %>
+      <span>mins</span>
+    </p>
+    <p>
+      <strong>Passengers onboard:</strong>
+      <%= flight.passengers %>
+    </p>
+    <p>------------------------------------------------</p>
+  <% end %>
+<% end %>
+<p>------------------------------------------------</p>
+
+<p><strong>Flights list</strong></p>
+<p>------------------------------------------------</p>
+<% @flights.order(:flight_date).each do |flight| %>
+  <p>
+    <strong>Flight date:</strong>
+    <%= flight.flight_date.strftime("%d %b %y") %>
+  </p>
+  <p>
+    <strong>From:</strong>
+    <%= flight.departure_airport.code %>
+  </p>
+  <p>
+    <strong>To:</strong>
+    <%= flight.arrival_airport.code %>
+  </p>
+  <p>
+    <strong>Estimated fly time:</strong>
+    <%= flight.flight_duration %>
+    <span>mins</span>
+  </p>
+  <p>
+    <strong>Passengers onboard:</strong>
+    <%= flight.passengers %>
+  </p>
+  <p>------------------------------------------------</p>
+
+<% end %>

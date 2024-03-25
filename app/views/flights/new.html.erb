@@ -1,0 +1,30 @@
+<p><strong>Flight search</strong></p>
+
+<%= form_with model: @flight, method: :get do |f| %>
+  <div>
+    <%= f.select(:departure_airport, @airport_options) %>
+    <%= f.select(:arrival_airport, @airport_options) %>
+  </div>
+<!--
+  <div>
+    <%= f.label :flight_date, style: "display: block" %>
+    <%= f.date_field :flight_date %>
+  </div>
+
+  <div>
+    <%= f.label :flight_duration, style: "display: block" %>
+    <%= f.text_field :flight_duration %>
+  </div>
+
+  <div>
+    <%= f.label :passengers, style: "display: block" %>
+    <%= f.text_field :passengers %>
+  </div>
+-->
+<br>
+  <div>
+    <%= f.submit "Search" %>
+  </div>
+<% end %>
+
+
